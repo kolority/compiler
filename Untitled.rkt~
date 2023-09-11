@@ -1,0 +1,13 @@
+#lang racket
+(define (process-data . args)
+  (let* ((arity (length args))
+         (result (case arity
+                   [(0) (let* ((zero (apply (const 1) '())))
+                          zero)]
+                   [(1) (let* ((one (apply identity args)))
+                          one)]
+                   [(3) (let* ((two (apply (const (list-ref args 0)) args)))
+                          two)]
+                   [(_ ...) (let* ((three (apply (const (list-ref (apply rest (take args 3)) 0)) args)))
+                          three)])))
+    result))
